@@ -45,5 +45,5 @@ def draw():
        screen.draw.line((x1, y), (x2, y), (255, 255, 255))
     # river (filled rectangle)
     river = Rect((270, 300), (60, 100))
-    screen.draw.line((x1, y), (x2, y), (0, 150, 255))   
+    screen.draw.filled_rect(river, (0, 150, 255))
 pgzrun.go()     
