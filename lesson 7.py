@@ -76,35 +76,65 @@ def draw():
         "LEVEL" + str(current_level + 1),
         topleft=(10, 10),
         fontsize=35,
-        color="white",
+        color="white",)
 
     player.pos = (
         player_col * CELL_SIZE + CELL_SIZE //2,
         player_row * CELL_SIZE + CELL_SIZE //2,
 )
 
-player.draw()
+    player.draw()
 
-if game_won:
-    screen.draw.text(
-        "YOU WON THE GAME!!!"
+    if game_won:
+        screen.draw.text(
+        "YOU WON THE GAME!!!",
         center=(WIDTH // 2, HEIGHT // 2),
         fontsize=50,
         color="lime",
+     )    
 
-    )
-if game_won:
-   screen.draw.text(
-       "YOU WON THE GAME!!!"
-       center=(WIDTH // 2, HEIGHT // 2)
-       fontsize=50,
-       color="lime"
- )    
+def on_key_down(key):
+    global player_row
+    global player_col
+    global game_won
+    global maze
+    global current_level
+    if game_won:
+        return
+    new_row = player_row
+    new_col = player_col
 
- def on_key_down(key):
- global player_row
- global player_col
- global game_won
- global maze
- global current_level
-             
+    if key == keys.UP:
+        new_row -= 1
+
+    elif key == keys.DOWN:
+         new_row += 1
+
+    elif key== keys.LEFT:
+        new_col -= 1        
+
+    elif key == keys.RIGHT:
+        new_col += 1
+
+    if 0 <= new_row < 8 and 0 <= new_col < 8:
+
+        if maze[new_row][new_col] != 1:
+
+            player_row = new_row
+            player_col = new_col
+    if maze[player_row][player_col] == 2:
+
+     current_level += 1
+
+     if current_level < len(levels):
+
+        maze = levels[current_level]
+
+        player_row = 0
+        player_col = 0
+
+     else:
+
+       game_won = True
+
+pgzrun.go()        
