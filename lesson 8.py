@@ -14,13 +14,13 @@ flower = Actor("flower")
 flower.pos = 200, 200
 
 def draw():
-    screen.blit("background"(0, 0))
+    screen.blit("background",(0, 0))
     flower.draw()
     bee.draw()
 
     screen.draw.text(
         "Score:" + str(score),
-        color="black"
+        color="black",
         topleft=(10, 10)
     )
 
@@ -29,7 +29,7 @@ def draw():
 
         screen.draw.text(
             "Time's up! your final score:"+ str(score),
-            midtop=(WIDTH /2, 10)
+            midtop=(WIDTH /2, 10),
             fontsize=40,
             color="red"
         )
@@ -54,15 +54,15 @@ def update():
     if keyboard.up:
         bee.y = bee.y - 2
 
-   if keyboard.down:
+    if keyboard.down:
         bee.y = bee.y + 2
 
-        flower_collected = bee.colliderect(flower)
+    flower_collected = bee.colliderect(flower)
 
-        if flower_collected:
-             score = score + 10
-             sounds.collect.play()
-             place_flower()
-clock.schedule(times_up, 60.0)
+    if flower_collected:
+        score = score + 10
+        sounds.collect.play()
+        place_flower()
+clock.schedule(time_up, 60.0)
 
-pgsrun.go()
+pgzrun.go()
