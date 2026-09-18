@@ -84,4 +84,80 @@ def draw ():
 
     def read_question_file():
 
+    def read_question_file()
+       global question_count, questions
+
+       with open(question_file_name, "r") as q_file:
+          for q in q_file:
+             questions.append(q)
+             question_count += 1
+
+    def read_next_question():
+       global questions_index
+
+       if question_index < len(questions):
+          q = questions[question_index]
+          question_index += 1
+          return q.split(",")
+
+       else:
+          game_over()
+          return ["Game Over", "-", "-", "-" , "5"]
+
+    def on_mouse_down(pos):
+       index = 1
+
+       for box in answer_boxes:
+          if box.collidepoint(pos):
+
+             try:
+                correct_option = int(question[5]).strip())
+            except:
+               correct_option = 0
+
+            if index == correct_option:
+                correct_answer()
+            else:
+             wrong_answer()
+
+        index += 1
+
+       if skip_box.collidepoint(pos):
+          skip_question()
+
+   def correct_answer():
+      global score
+
+      score +=1
+      next_question()
+
+    def wrong_answer():
+       next_question()
+
+    def next question():
+       global question, time_left
+
+       if question_index < question_count:
+           question = read_next_question()
+           time_left =20
+
+        else:
+           game_over()
+
+    def  game_over():
+        global question, time_left, is_game_over
+
+        message = f"Game Over!/nScore: {score}/{question_count}"
+        question = [message, "-", "-", "-", "-", "5"]
+        time_left = 0
+        is_game_over =  True
+
+def skip_question():
+    global question, time_left
+
+    if question_index < question_count and not is_game_over:
+            time_left = 20
+
+    else:
+       game_over()        
             
