@@ -22,8 +22,8 @@ is_game_over = False
 answer_boxes = [answer_box1,answer_box2,answer_box3,answer_box4]
 
 questions = []
-questions_count = 0
-questions_index = 0
+question_count = 0
+question_index = 0
 
 marquee_box.move_ip(0, 0)
 question_box.move_ip(0, 0)
@@ -43,13 +43,13 @@ def draw ():
     screen.draw.filled_rect(marquee_box, "black")
     screen.draw.filled_rect(question_box, "navy blue")
     screen.draw.filled_rect(timer_box, "navy blue")
-    screen.draw.filled_rect(skip, "navy green")
+    screen.draw.filled_rect(skip_box, "navy green")
 
     for answer_box in answer_boxes:
         screen.draw.filled_rect(answer_box, "dark green")
 
     marquee_message = "Welcome To The Quiz..."
-    marquee_message += f"Q; {question_index} of {question_count}   
+    marquee_message += f"Q; {question_index} of {question_count} "  
 
     screen.draw.textbox(marquee_message, marquee_box, color="white")
 
@@ -73,26 +73,24 @@ def draw ():
         screen.draw.teextbox(question[index].strip9(), answer_box, color="black")
         index += 1
 
-    def update
-        move_marquee()
+def update():
+   move_marquee()
 
-    def move marquee():
-    marquee_box.x -= 2
+def move_marquee():
+   marquee_box.x -= 2
 
-       if marquee_box.right < 0:
+   if marquee_box.right < 0:
         marquee_box.left = WIDTH
 
-    def read_question_file():
+def read_question_file():
+      global question_count, questions
 
-    def read_question_file()
-       global question_count, questions
-
-       with open(question_file_name, "r") as q_file:
+      with open(question_file_name, "r") as q_file:
           for q in q_file:
              questions.append(q)
              question_count += 1
 
-    def read_next_question():
+def read_next_question():
        global questions_index
 
        if question_index < len(questions):
@@ -102,16 +100,16 @@ def draw ():
 
        else:
           game_over()
-          return ["Game Over", "-", "-", "-" , "5"]
+          return ["Game Over", "-", "-", "-", "-" , "5"]
 
-    def on_mouse_down(pos):
-       index = 1
+def on_mouse_down(pos):
+      index = 1
 
-       for box in answer_boxes:
-          if box.collidepoint(pos):
+      for box in answer_boxes:
+         if box.collidepoint(pos):
 
-             try:
-                correct_option = int(question[5]).strip())
+            try:
+                correct_option = int(question[5].strip())
             except:
                correct_option = 0
 
@@ -120,31 +118,31 @@ def draw ():
             else:
              wrong_answer()
 
-        index += 1
+         index += 1
 
-       if skip_box.collidepoint(pos):
+      if skip_box.collidepoint(pos):
           skip_question()
 
-   def correct_answer():
+def correct_answer():
       global score
 
       score +=1
       next_question()
 
-    def wrong_answer():
+def wrong_answer():
        next_question()
 
-    def next question():
-       global question, time_left
+def next_question():
+      global question, time_left
 
-       if question_index < question_count:
+      if question_index < question_count:
            question = read_next_question()
            time_left =20
 
-        else:
+      else:
            game_over()
 
-    def  game_over():
+def  game_over():
         global question, time_left, is_game_over
 
         message = f"Game Over!/nScore: {score}/{question_count}"
@@ -156,8 +154,20 @@ def skip_question():
     global question, time_left
 
     if question_index < question_count and not is_game_over:
+            question = read_next_question()
             time_left = 20
 
     else:
        game_over()        
-            
+
+def update_time_left():
+   global time_left
+   if time_left > 0 and not is_game_over:
+       time_left = -1
+   else:
+      next_question()
+read_question_file()
+question = read_next_question()
+clock.schedule_interval(update_time_left, 1)
+
+pgzrun.go()            
